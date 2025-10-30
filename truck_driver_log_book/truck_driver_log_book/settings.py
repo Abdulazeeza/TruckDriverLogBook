@@ -31,7 +31,8 @@ APP_URL = env.str('APP_URL', 'localhost')
 DEBUG = env.bool('DEBUG', False)
 
 # ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', 'localhost').split(sep=' ')
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
+
 
 # Application definition
 
@@ -161,3 +162,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'apps.user_app.utils.custom_exception_handler',
 }
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
