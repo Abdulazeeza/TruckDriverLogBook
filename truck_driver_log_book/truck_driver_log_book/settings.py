@@ -30,8 +30,8 @@ APP_URL = env.str('APP_URL', 'localhost')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', 'localhost').split(sep=' ')
-
+# ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', 'localhost').split(sep=' ')
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -58,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'truck_driver_log_book.urls'
