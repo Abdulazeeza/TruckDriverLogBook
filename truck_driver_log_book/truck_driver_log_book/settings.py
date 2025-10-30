@@ -86,34 +86,34 @@ WSGI_APPLICATION = 'truck_driver_log_book.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': env.str('DATABASE_HOST', None),
-        'PORT': env.int('DATABASE_PORT', 5432),
-        'NAME': env.str('DATABASE_NAME', None),
-        'USER': env.str('DATABASE_USER', None),
-        'PASSWORD': env.str('DATABASE_PASSWORD', None),
-    },
-    'local': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    },
+    }
 }
 
-if db_url := env.str('DATABASE_URL', None):
-    DATABASES['default'] = env.db_url_config(db_url)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': env.str('DATABASE_HOST', None),
+#         'PORT': env.int('DATABASE_PORT', 5432),
+#         'NAME': env.str('DATABASE_NAME', None),
+#         'USER': env.str('DATABASE_USER', None),
+#         'PASSWORD': env.str('DATABASE_PASSWORD', None),
+#     },
+#     'local': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+# }
 
-USE_DATABASE = env.str('USE_DATABASE', 'default')
+# if db_url := env.str('DATABASE_URL', None):
+#     DATABASES['default'] = env.db_url_config(db_url)
 
-DATABASES["default"] = DATABASES[USE_DATABASE]
+# USE_DATABASE = env.str('USE_DATABASE', 'default')
+
+# DATABASES["default"] = DATABASES[USE_DATABASE]
 
 
 # Password validation
