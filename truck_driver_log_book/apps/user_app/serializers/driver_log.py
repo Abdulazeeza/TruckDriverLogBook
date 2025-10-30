@@ -42,12 +42,39 @@ class ListDriverLogSerializer(serializers.ModelSerializer):
         fields = ['id', 'driver_id', 'current_location', 'pickup_location', 'dropoff_location', 'commodity', 'shipper_company', 'created_at']
 
 class DriverLogSerializer(serializers.ModelSerializer):
-    """Driver log serializer"""
+    driver_vehicle_number = serializers.CharField(source='driver.vehicle_number', read_only=True)
+    total_off_duty_hours = serializers.SerializerMethodField()
+    total_sleeper_birth_hours = serializers.SerializerMethodField()
+    total_driving_hours = serializers.SerializerMethodField()
+    total_on_duty_hours = serializers.SerializerMethodField()
+    total_working_hours = serializers.SerializerMethodField()
+
     class Meta:
         model = DriverDailyLog
-        fields = ['id', 'driver_id', 'co_driver_id', 'current_location', 'pickup_location', 'dropoff_location', 'commodity', 'shipper_company', 
-            'total_driving_miles', 'truck_miles', 'trailer_numbers', 'load_numbers', 'created_at', 'updated_at'
+        fields = [
+            'id', 'driver_id', 'co_driver_id', 'current_location',
+            'pickup_location', 'dropoff_location', 'commodity', 'shipper_company',
+            'total_driving_miles', 'truck_miles', 'trailer_numbers', 'load_numbers',
+            'driver_vehicle_number', 'created_at', 'updated_at', 'total_off_duty_hours', 
+            'total_off_duty_hours', "total_sleeper_birth_hours","total_driving_hours","total_on_duty_hours",
+            'total_working_hours'
         ]
+
+    def get_total_off_duty_hours(self, obj):
+        return obj.total_off_duty_hours
+
+    def get_total_sleeper_birth_hours(self, obj):
+        return obj.total_sleeper_birth_hours
+
+    def get_total_driving_hours(self, obj):
+        return obj.total_driving_hours
+
+    def get_total_on_duty_hours(self, obj):
+        return obj.total_on_duty_hours
+    
+    def get_total_working_hours(self, obj):
+        return obj.total_working_hours
+
 
 class DriverLogQuerySerializer(serializers.Serializer):
     driver_id=serializers.CharField()

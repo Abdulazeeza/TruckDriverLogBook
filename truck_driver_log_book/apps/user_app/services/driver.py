@@ -2,7 +2,7 @@ from django.db import transaction
 from rest_framework.exceptions import ParseError
 
 from apps.user_app.models.driver import Driver
-from apps.user_app.serializers.driver import CreateDriverSerializer
+from apps.user_app.serializers.driver import CreateDriverSerializer, LoginDriverSerializer
 
 class DriverService:
 
@@ -31,3 +31,14 @@ class DriverService:
         return driver
 
 
+    def login_driver_profile(self, serializer: LoginDriverSerializer):
+        serializer.is_valid()
+        data = serializer.validated_data
+        driver_id = data.get('driver_id')
+
+        try:
+            driver = Driver.objects.get(id=driver_id)
+        except Driver.DoesNotExist:
+            raise ParseError("Driver not found in the system")
+        
+        return driver

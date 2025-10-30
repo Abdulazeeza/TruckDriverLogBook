@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from datetime import datetime, timedelta
 
 from truck_driver_log_book.models.base import BaseModel
 from truck_driver_log_book.utils.all import generate_uuid
@@ -55,3 +56,40 @@ class DriverDailyLog(BaseModel):
         blank=True,
         related_name='daily_logs'
     )
+
+    @property
+    def total_off_duty_hours(self):
+        return self._total_hours_for_status(DriverEvent.EventStatus.OFF_DUTY)
+
+    @property
+    def total_sleeper_birth_hours(self):
+        return self._total_hours_for_status(DriverEvent.EventStatus.SLEEPER_BIRTH)
+
+    @property
+    def total_driving_hours(self):
+        return self._total_hours_for_status(DriverEvent.EventStatus.DRIVING)
+
+    @property
+    def total_on_duty_hours(self):
+        return self._total_hours_for_status(DriverEvent.EventStatus.ON_DUTY)
+    
+    @property
+    def total_working_hours(self):
+        return self.total_on_duty_hours + self.total_driving_hours
+
+    def _total_hours_for_status(self, status):
+        total_seconds = 0
+        for event in self.events.filter(event_status=status):
+            # Convert times to datetime objects
+            start_dt = datetime.combine(datetime.today(), event.start_time)
+            end_dt = datetime.combine(datetime.today(), event.end_time)
+            
+            # Handle overnight events (end_time < start_time)
+            if end_dt < start_dt:
+                end_dt += timedelta(days=1)
+
+            duration = end_dt - start_dt
+            total_seconds += duration.total_seconds()
+
+        # Convert seconds to hours
+        return total_seconds / 3600

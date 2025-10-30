@@ -53,3 +53,4 @@ def paginate(query, per_page = 10, page_number = 1):
     }
 
     return records, pagination_data
+

@@ -8,6 +8,11 @@ class CreateDriverSerializer(serializers.Serializer):
     co_driver_id = serializers.CharField(required=False)
     vehicle_number = serializers.CharField()
 
+class LoginDriverSerializer(serializers.Serializer):
+    """login driver serializer """
+    driver_id = serializers.CharField()
+   
+
 class DriverSerializer(serializers.ModelSerializer):
     """Driver serializer"""
     
