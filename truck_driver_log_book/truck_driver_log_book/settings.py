@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import environ
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,33 +88,11 @@ WSGI_APPLICATION = 'truck_driver_log_book.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',  # use SQLite locally
+        conn_max_age=600,                # keeps connection alive
+    )
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'HOST': env.str('DATABASE_HOST', None),
-#         'PORT': env.int('DATABASE_PORT', 5432),
-#         'NAME': env.str('DATABASE_NAME', None),
-#         'USER': env.str('DATABASE_USER', None),
-#         'PASSWORD': env.str('DATABASE_PASSWORD', None),
-#     },
-#     'local': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     },
-# }
-
-# if db_url := env.str('DATABASE_URL', None):
-#     DATABASES['default'] = env.db_url_config(db_url)
-
-# USE_DATABASE = env.str('USE_DATABASE', 'default')
-
-# DATABASES["default"] = DATABASES[USE_DATABASE]
 
 
 # Password validation
