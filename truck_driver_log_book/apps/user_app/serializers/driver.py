@@ -3,8 +3,8 @@ from apps.user_app.models.driver import Driver
 
 class CreateDriverSerializer(serializers.Serializer):
     """Create driver serializer """
-    first_name = serializers.CharField(max_length=50, min_length=3)
-    last_name = serializers.CharField(max_length=50, min_length=3)
+    first_name = serializers.CharField(max_length=50, min_length=1)
+    last_name = serializers.CharField(max_length=50, min_length=1)
     co_driver_id = serializers.CharField(required=False)
     vehicle_number = serializers.CharField()
 
